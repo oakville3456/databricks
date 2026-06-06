@@ -1,0 +1,20 @@
+resources:
+  pipelines:
+    retail_dlt_pipeline:
+      name: retail_dlt_pipeline
+
+      libraries:
+        - notebook:
+            path: /Repos/oakville3456@hotmail.com/databricks/10_dlt_pipeline
+
+      catalog: adb_retail_dev
+      target: dlt_demo
+      serverless: true
+      continuous: false
+
+      notifications:
+        - alerts:
+            - on-update-failure
+            - on-update-success
+          email_recipients:
+            - oakville3456@hotmail.com

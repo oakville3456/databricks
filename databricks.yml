@@ -1,0 +1,19 @@
+bundle:
+  name: retail_pipeline
+
+workspace:
+  host: https://adb-7405605652873910.10.azuredatabricks.net
+
+targets:
+  dev:
+    mode: development
+    default: true
+  prod:
+    mode: production
+    workspace:
+      host: https://adb-7405605652873910.10.azuredatabricks.net
+
+include:
+  - resources/retail_daily_pipeline.yml
+  - resources/retail_pipeline_v2.yml
+  - resources/retail_dlt_pipeline.yml

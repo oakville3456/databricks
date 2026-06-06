@@ -1,0 +1,38 @@
+resources:
+  jobs:
+    retail_daily_pipeline:
+      name: retail_daily_pipeline
+      description: "Bronze -> Silver -> Gold (Priority 1 - ADF + Auto Loader)"
+
+      tasks:
+        - task_key: bronze_ingest
+          notebook_task:
+            notebook_path: /Repos/oakville3456@hotmail.com/databricks/01 bronze ingest auto load
+          environment_key: serverless
+
+        - task_key: silver_transform
+          depends_on:
+            - task_key: bronze_ingest
+          notebook_task:
+            notebook_path: /Repos/oakville3456@hotmail.com/databricks/02 silver transform
+          environment_key: serverless
+
+        - task_key: gold
+          depends_on:
+            - task_key: silver_transform
+          notebook_task:
+            notebook_path: /Repos/oakville3456@hotmail.com/databricks/03 gold aggregate
+          environment_key: serverless
+
+      environments:
+        - environment_key: serverless
+          spec:
+            client: "1"
+
+      schedule:
+        quartz_cron_expression: "0 0 6 * * ?"
+        timezone_id: America/New_York
+
+      email_notifications:
+        on_failure:
+          - oakville3456@hotmail.com
